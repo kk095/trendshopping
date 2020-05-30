@@ -1,0 +1,76 @@
+{% extends 'basic.html' %}
+{% block body%}
+{% if messages %}
+<div class="messages">
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong> {{ message }}</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+<br><br>
+{% if count != 0 %}
+<div class="container">
+<table class="table table-striped">
+    <h3>Order Summary</h3>
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">product name</th>
+      <th scope="col">price</th>
+      <th scope="col">quantity</th>
+        <th scope="col">total price</th>
+        <th scope="col">Remove</th>
+    </tr>
+  </thead>
+  <tbody>
+   {% for i in order %}
+    <tr>
+      <th scope="row">{{forloop.counter}}</th>
+      <td>{{i.item}}</td>
+        {% if i.item.discount_price == 0 %}
+      <td>{{i.item.price}}</td>
+        {% else %}
+        <td>{{i.item.discount_price}}
+            <span class="badge badge-pill badge-primary">Discount</span></td>
+        {% endif %}
+        <td><a href="/plus/{{i.item.slug}}"><img src="/media/app/images/plus.png" height="12px" width="12px"></a><span class="mx-2"> {{i.quantity}}</span> <a href="/minus/{{i.item.slug}}"><img src="/media/app/images/minus.png" width="12px"></a></td>
+        {% if i.item.discount_price == 0 %}
+        <td>{{i.total_price}}</td>
+        {% else %}
+        <td>{{i.total_discountprice}}</td>
+        {% endif %}
+        <td> <a href="/remove-from-cart/{{i.item.slug}}" class=" mx-3"><img src="/media/app/images/del.jpg" width="20px" height="20px"> </a> </td>
+
+    </tr>
+{% endfor %}
+<tr >{%for i  in total %}
+  <td colspan="3"><b> Order Total</b></td>
+  <td><b>{{count}}</b> </td>
+
+  <td colspan="2"><b>{{i.final}}</b> </td>
+</tr>
+   <tr>
+     <td colspan="6">
+
+       <a class="btn btn-warning float-right" href="/order-place/">Proceed to checkout</a>
+       <a class="btn btn-primary float-right mx-2" href="/">Continue shopping</a>
+     </td>
+   </tr>
+   {% endfor %}
+  </tbody>
+</table>
+</div>
+{% else %}
+<div class="container">
+    <h1 style="text-align:center;color:red;"><b>Sorry {{request.user}} !</b></h1>
+    <h3 style="text-align:center;color:darkorange; margin-top:30px">I think!</h3>
+    <img src="/media/app/images/cartemoji.png" width="250px" height="250px" style="margin-left:40%;">
+    <h3 style="text-align:center;color:darkorange">Your cart is empty.<br>You haven't added items to your cart yet.<br>Please add items to your cart first.</h3>
+</div>
+{% endif %}
+{% endblock %}
