@@ -1,0 +1,131 @@
+{% extends 'basic.html' %}
+{% block title %} Shoping cart - your search results {% endblock %}
+{% block css %}
+          .col-md-3
+          {
+          display: inline-block;
+          margin-left:-4px;
+          }
+
+          .carousel-indicators .active {
+          background-color: blue;
+            }
+
+          .col-md-3 img{
+
+          width: 270px;
+          height: 200px;
+          }
+
+          body .carousel-indicator li{
+          background-color: blue;
+          }
+
+          body .carousel-indicators{
+          bottom: 0;
+          }
+
+          body .carousel-control-prev-icon,
+          body .carousel-control-next-icon{
+          background-color: blue;
+          }
+          body .carousel-control-next{
+           width:2%;
+           margin-right:30px;}
+          body .carousel-control-prev{
+          width:2%;
+           margin-left:58px;}
+
+
+           body .no-padding{
+           padding-left: 0,
+           padding-right: 0;
+           }
+          col-md-3 img {
+
+
+
+
+ {% endblock %}
+
+{% block body %}
+{% if messages %}
+<div class="messages">
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong> {{ message }}</strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% load static %}
+<br>
+<h5 style="color:blue;"><b>{{l}}-</b><i>result found for</i>"<span style="color:red">{{query}}</span>"</h5>
+<hr>
+{% for products,range,nslides in allprod %}
+
+<div class="container">
+    <h4 style="color:darkgrey;text-align:center;border:1px solid grey;margin-left:35%;margin-right:35%;background-color:powderblue" >Flash sale on : <span style="color:black">{{products.0.category}}</span></h4>
+<div id="demo{{forloop.counter}}" class="carousel slide my-3" data-ride="carousel">
+    <ul class="carousel-indicators">
+      <li data-target="#demo{{forloop.counter}}" data-slide-to="0" class="active"></li>
+
+       {% for i in range %}
+      <li data-target="#demo{{forloop.parentloop.counter}}" data-slide-to="{{i}}" ></li>
+      {% endfor %}
+    </ul>
+
+    <!--Slideshow starts here -->
+    <div class="container carousel-inner no-padding">
+
+      <div class="carousel-item active">
+           {% for i in products %}
+
+        <div class="col-xs-3 col-sm-3 col-md-3">
+          <div class="card" style="width: 18rem;">
+            <img src='/media/{{i.image}}' class="card-img-top ">
+            <div class="card-body" style="background-color:lightcyan; display:block; overflow: hidden;">
+                <p class="card-title"><b> {{i.product_name}}</b></p>
+                <p class="card-text">{{i.desc|slice:"0:25"}}....</p>
+                <a href="#" class="btn btn-primary">Add to Cart</a>
+                <a href="/checkout/{{i.slug}}" id="pv{{i.id}}" class="btn btn-primary mx-4">View</a>
+
+            </div>
+          </div>
+       </div>
+
+
+               {% if forloop.counter|divisibleby:4 and forloop.counter > 0 and not forloop.last %}
+               </div><div class="carousel-item">
+                  {% endif %}
+
+
+        {% endfor %}
+    </div>
+  </div>
+
+
+
+    <!-- left and right controls for the slide -->
+    <a class="carousel-control-prev" href="#demo{{forloop.counter}}" data-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </a>
+   <a class="carousel-control-next" href="#demo{{forloop.counter}}" data-slide="next">
+        <span class="carousel-control-next-icon"></span>
+   </a>
+</div>
+    </div>
+
+{% empty %}
+<div class="container">
+    <img src="/media/app/images/oops.jpg" height="400px" width="400px" style="margin-left:300px">
+</div>
+<h3 style="text-align:center;color:red"><b>Oops!</b>such result not found. Try again</h3>
+
+{% endfor %}
+
+
+ {% endblock %}
