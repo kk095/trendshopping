@@ -115,11 +115,11 @@ USE_L10N = True
 
 USE_TZ = True
 
-STATIC_ROOT = os.path.join(BASE_DIR,'static')
-STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR,'media')
+STATIC_URL = '/media/'
 if DEBUG:
     STATICFILES_DIRS = [
-        os.path.join(BASE_DIR, 'static'),
+        os.path.join(BASE_DIR, 'media'),
     ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
