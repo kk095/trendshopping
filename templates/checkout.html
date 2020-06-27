@@ -3,43 +3,11 @@
 {{prod.product_name}}-shoping cart
 {% endblock %}
 {% block css%}
-          .col-md-3
-          {
-          display: inline-block;
-          margin-left:-4px;
-          }
-
-          .carousel-indicators .active {
-          background-color: blue;
-            }
-
-          .col-md-3 img{
-
-          width: 270px;
-          height: 200px;
-          }
-
-          body .carousel-indicator li{
-          background-color: blue;
-          }
-
-          body .carousel-indicators{
-          bottom: 0;
-          }
- #sm-control-next{
-           width:2%;
-           }
-          #sm-control-prev{
-          width:2%;
-           margin-left:58px;}
+.carousel-control-prev-icon,
+.carousel-control-next-icon{background-color:blue;}
+.carousel-control-prev,
+.carousel-control-next{width:2%;}
 #sm-next{  width:100%;}
-
-
-
-           body .no-padding{
-           padding-left: 0,
-           padding-right: 0;
-           }
 
 {% endblock %}
 {% block body %}
@@ -108,60 +76,145 @@
 <hr class="divider">
 <!-- similar-->
 {% for products,range,nslides in allprod %}
-
 <div class="container">
-    <h4 style="color:royalblue">Similar Products : </h4>
-<div id="demo{{forloop.counter}}" class="carousel slide my-3" data-ride="carousel">
-    <ul class="carousel-indicators">
-      <li data-target="#demo{{forloop.counter}}" data-slide-to="0" class="active"></li>
+<h4 style="color:royalblue">Similar Products: </h4><br>
+    <!--Carousel Wrapper-->
+    <div id="demo{{forloop.counter}}" class="carousel slide carousel-multi-item" data-ride="carousel">
 
-       {% for i in range %}
-      <li data-target="#demo{{forloop.parentloop.counter}}" data-slide-to="{{i}}" ></li>
-      {% endfor %}
-    </ul>
+        <!--Controls-->
+        <a class="carousel-control-prev" href="#demo{{forloop.counter}}" data-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </a>
+        <a class="carousel-control-next" href="#demo{{forloop.counter}}" data-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </a>
+        <!--/.Controls-->
 
-    <!--Slideshow starts here -->
-    <div class="container carousel-inner no-padding">
+        <!--Indicators-->
+        <ol class="carousel-indicators">
+            <li data-target="#demo{{forloop.counter}}"  data-slide-to="0" class="active"></li>
+            {% for i in  range %}
+            <li data-target="#demo{{forloop.counter}}"  data-slide-to="{{i}}"></li>
+            {% endfor %}
+        </ol>
+        <!--/.Indicators-->
 
-      <div class="carousel-item active">
-           {% for i in products %}
+        <!--Slides-->
+        <div class="carousel-inner" role="listbox">
 
-        <div class="col-xs-3 col-sm-3 col-md-3">
-          <div class="card" style="width: 18rem;">
-            <img src='/media/{{i.image}}' class="card-img-top ">
-            <div class="card-body" style="background-color:lightcyan">
-                <p class="card-title"><b> {{i.product_name}}</b></p>
-                <p class="card-text">{{i.desc|slice:"0:25"}}....</p>
-                <a href="#" class="btn btn-primary">Add to Cart</a>
-                <a href="/checkout/{{i.slug}}" id="pv{{i.id}}" class="btn btn-primary mx-4">View</a>
-
-            </div>
-          </div>
-       </div>
-
-
-               {% if forloop.counter|divisibleby:4 and forloop.counter > 0 and not forloop.last %}
-               </div><div class="carousel-item">
-                  {% endif %}
-
-
-        {% endfor %}
-    </div>
-  </div>
+            <!--First slide-->
+            <div class="carousel-item active">
+                {% for i in products|dictsort:"product_name" %}
+                <div class="col-md-3" style="float:left">
+                    <div class="card mb-2">
+                        <img class="card-img-top"
+                             src='/media/{{i.image}}' alt="Card image cap" height="200px">
+                        <div class="card-body">
+                            <h4 class="card-title">{{i.product_name|truncatechars:25}}</h4>
+                            <p class="card-text">{{i.desc|truncatechars:30}}</p>
+                            <div class="row">
+                                <a href="/add-to-cart/{{i.slug}}" class="btn btn-primary btn-small" style="height:40px">Add to Cart</a>
+                                <a href="/checkout/{{i.slug}}" id="pv{{i.id}}" class="btn btn-primary mt-2 ml-5">View</a>
+                            </div>
 
 
+                        </div>
+                    </div>
+                </div>
+                {% if forloop.counter|divisibleby:4 and forloop.counter > 0 and not forloop.last %}
+            </div><div class="carousel-item">
+            {% endif %}
+            {% endfor %}
 
-    <!-- left and right controls for the slide -->
-    <a class="carousel-control-prev " id="sm-control-prev" href="#demo{{forloop.counter}}" data-slide="prev">
-        <span class="carousel-control-prev-icon bg-primary"></span>
-    </a>
-   <a class="carousel-control-next "  id="sm-control-next" href="#demo{{forloop.counter}}" data-slide="next">
-        <span class="carousel-control-next-icon bg-primary"></span>
-   </a>
-</div>
-</div>
+        </div>
+            <!--/.Carousel Wrapper-->
+        </div></div></div>
 {% endfor %}
+<hr>
+<div class="container">
+    <h2>Comments  ({{ln}})</h2><br>
+    <form action="/comments/{{prod.slug}}/" method="post">{% csrf_token %}
+        <div class="form-group">
+            <label for="comment" class="h5">Post comment</label>
+                <div class="container">
+                    <div class="row">
+            <input type="text" class="form-control col-md-10" id="comment" name="comment" placeholder="write your comment">
+        <button type="submit" class="btn "><img src="\media\app\images\submit.png" height="40px" width="40px"></button>
+                </div>
+            </div>
+        </div>
+    </form><br>
+    {% for a in com %}
+    <div class="media">
+    <img  src="\media\app\images\photo.png"  id="img" class=" mr-2 rounded" alt="..." width="50px" height="50px">
+    <div class="media-body">
 
+            <h5 class="mt-0">{{a.user}}</h5> <small class="text-muted">{{a.time}}</small><br>
+             {{a.comment}}<br>
+        <div class="container">
+
+            <div class="row">
+                {% if request.user in a.dislikes.all %}
+                <div class="mr-5"><img src="\media\app\images\like.png" width="20px" height="20px">
+                    <span style="color:black">{{a.total}}</span></div>
+                {% else %}
+                {% if request.user in a.likes.all %}
+                <a href="/like/{{a.sno}}/" class="mr-5"> <img src="\media\app\images\plike.jpg" width="20px" height="20px">
+                    <span style="color:black">{{a.total}}</span></a>
+                {% else %}
+                <a href="/like/{{a.sno}}/" class="mr-5"> <img src="\media\app\images\like.png" width="20px" height="20px">
+                    <span style="color:black">{{a.total}}</span></a>
+                {% endif %}
+                {% endif %}
+                {% if request.user in a.likes.all %}
+                <div class="mr-5"><img src="\media\app\images\dislike.png" width="20px" height="20px">
+                    <span style="color:black">{{a.total_dislike}}</span></div>
+                {% else %}
+                {% if request.user in a.dislikes.all %}
+                <a href="/dislike/{{a.sno}}/" class="mr-5"><img src="\media\app\images\pdislike.png" width="20px" height="20px">
+                    <span style="color:black">{{a.total_dislike}}</span></a>
+                {% else %}
+                <a href="/dislike/{{a.sno}}/" class="mr-5"><img src="\media\app\images\dislike.png" width="20px" height="20px">
+                    <span style="color:black">{{a.total_dislike}}</span></a>
+                {% endif %}
+                {% endif %}
+
+                <a class="text-dark" data-toggle="collapse" href="#collapseExample{{a.sno}}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    reply {{a.all_reply.all|length}}
+                </a>
+                <div class="collapse flex-container" id="collapseExample{{a.sno}}" style="width:1000px">
+                    <form action="/reply/{{a.sno}}/" method="post" class="mt-2">{% csrf_token %}
+                        <div class="form-group">
+                            <div class="container">
+                                <div class="row">
+                                    <input type="text" class="form-control col-md-10" id="reply" name="reply" placeholder="write your reply">
+                                    <button type="submit" class="btn "><img src="\media\app\images\submit.png" height="30px" width="30px"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    {% for r in a.all_reply.all %}
+                    <div class="card-body" >
+                        <div class="media">
+                            <img src="\media\app\images\photo.png" class=" mr-2 rounded" alt="..." width="40px" height="40px">
+                            <div class="media-body">
+                                <h6 class="mt-0">{{r.user}}</h6>
+                                <small class="text-muted">{{r.reply_time}}</small><br>
+                                {{r.comment_reply}}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+
+
+            </div></div>
+
+    </div>
+</div><br><br>
+{% endfor %}
+</div>
 
 
 

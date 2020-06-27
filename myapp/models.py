@@ -36,7 +36,7 @@ class Contact(models.Model):
       return self.name
 
 def pre_save_receiver(sender, instance, *args, **kwargs):
-    if not instance.slug:
+    if not instance.slug: 
 	    instance.slug = unique_slug_generator(instance)
 
 
@@ -60,21 +60,37 @@ class OrderItem(models.Model):
         else:
             return self.total_price()
 
+
 class Order(models.Model):
+    STATUS=(
+            ('Not order','Not order'),
+            ('Out for delivery','Out for delivery'),
+            ('delivered','delivered'),
+            )
     user=models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    unique_id = models.CharField(max_length=20,default="")
     items=models.ManyToManyField(OrderItem)
-    start_date=models.DateTimeField(auto_now_add=True)
+    start_date=models.DateTimeField(auto_now=True)
     order_date=models.DateTimeField()
+    complete_date=models.DateTimeField(null=True, blank=True)
     ordered=models.BooleanField(default=False)
+    status = models.CharField(max_length=100, default="not order",choices=STATUS)
+    payment_price=models.FloatField(default=0)
     delivery_address=models.ForeignKey('CheckoutForm',on_delete=models.SET_NULL,blank=True,null=True)
 
+
+
     def __str__(self):
-        return self.user.username
+        return f"{self.user}-({self.status})"
+
     def final(self):
         total=0
         for item in self.items.all():
             total += item.final_price()
         return total
+    amount=property(final)
+    class Meta:
+        ordering=["status"]
 
 class Promocode(models.Model):
            code= models.IntegerField(default=0)
@@ -92,7 +108,52 @@ class CheckoutForm(models.Model):
     zip=models.CharField(max_length=100)
     house_no=models.CharField(max_length=1000)
     address=models.CharField(max_length=1000)
-    corresponding=models.CharField(max_length=1000)
+    corresponding=models.CharField(max_length=1000,blank=True)
     payment_mode=models.CharField(max_length=100,default="")
     def __str__(self):
         return self.first_name
+    class Meta:
+        verbose_name_plural="Addresses"
+
+
+class Reply(models.Model):
+    reply_sno = models.IntegerField(primary_key=True)
+    comment_reply = models.TextField()
+    user = models.CharField(max_length=20)
+    on_comment = models.ForeignKey('Comments',on_delete=models.CASCADE)
+    liked = models.ManyToManyField(settings.AUTH_USER_MODEL)
+    disliked = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="disliked")
+    total_liked = models.IntegerField(default=0)
+    total_disliked = models.IntegerField(default=0)
+    reply_time = models.DateTimeField()
+    def __str__(self):
+        return f"{self.comment_reply}"
+
+
+class Comments(models.Model):
+    sno=models.IntegerField(primary_key=True)
+    comment = models.TextField()
+    product = models.ForeignKey(product, on_delete=models.CASCADE)
+    user = models.CharField(max_length=20)
+    time = models.DateTimeField(null=True,blank=True)
+    likes = models.ManyToManyField(settings.AUTH_USER_MODEL)
+    total = models.IntegerField(default=0)
+    dislikes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="dislikes")
+    total_dislike = models.IntegerField(default=0)
+    all_reply = models.ManyToManyField(Reply, related_name='reply')
+    def __str__(self):
+        return f"comment by {self.user}"
+
+class Like(models.Model):
+    comment=models.ForeignKey(Comments,on_delete=models.CASCADE)
+    user = models.ManyToManyField(settings.AUTH_USER_MODEL)
+    total_likes = models.IntegerField(default=0)
+    def __str__(self):
+        return f"liked on '{self.comment}'"
+
+class Dislike(models.Model):
+    dislike_comment=models.ForeignKey(Comments,on_delete=models.CASCADE)
+    user = models.ManyToManyField(settings.AUTH_USER_MODEL)
+    total_Dislikes = models.IntegerField(default=0)
+    def __str__(self):
+        return f"disliked on '{self.dislike_comment}'"

@@ -13,28 +13,29 @@
       {% endblock %}
   </style>
 
-    <title>{% block title %} {% endblock %}</title>
+
+      <title>{% block title %} {% endblock %}</title>
   </head>
 <body>
- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="/">Shoping cart</a>
+ <nav class="navbar navbar-expand-lg navbar-light bg-light">
+     <a class="navbar-brand display-3" href="/"><img src="\media\app\images\shop.png"></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+      <li class="nav-item " >
+        <a class="nav-link" href="/" id="home">Home <span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/about/">About us</a>
+      <li class="nav-item" >
+        <a class="nav-link" href="/about/" id="about">About us </a>
       </li>
 
-      <li class="nav-item">
+      <li class="nav-item" >
           <form method="post" action="/contact/">
               {% csrf_token %}
-        <a class="nav-link " href="/contact/" > Contact us</a>
+        <a class="nav-link " href="/contact/" id="contact"> Contact us</a>
           </form>
       </li>
     </ul>
@@ -52,11 +53,12 @@
       {% if user.is_authenticated %}
        <div class="dropdown ">
   <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Welcome! {{request.user}}
+    Welcome {{request.user|capfirst}} !
   </button>
   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" style="background-color:azure;">
       <div style="text-align:center">
-      <form action="/logout" method="post">
+          <a href="/payment-history" class="btn btn-outline-success mb-3">Order history</a>
+          <form action="/logout" method="post">
           {% csrf_token %}
       <button type="submit" class="btn btn-outline-success">Log out</button></form>
       </div>
@@ -94,12 +96,12 @@
              {% csrf_token %}
   <div class="form-group">
       <label for="user">Username</label>
-      <input type="text" class="form-control col-md-12" id="user" name="loginusername" placeholder="enter username">
+      <input type="text" class="form-control col-md-12" id="user" name="loginusername" placeholder="enter username" required>
   </div><br>
 
     <div class="form-group">
-    <label for="pass">Password</label>
-    <input type="password" class="form-control col-md-12" id="pass" name="loginpassword" placeholder="enter your password">
+    <label for="pass">Password</label><a href="/password-reset/" style="margin-left:270px">Forget password</a>
+    <input type="password" class="form-control col-md-12" id="pass" name="loginpassword" placeholder="enter your password" required>
   </div><br>
 <button type="submit" class="btn btn-primary">Log in</button>
 </form>

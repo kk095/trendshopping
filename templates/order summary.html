@@ -67,10 +67,11 @@
 </div>
 {% else %}
 <div class="container">
-    <h1 style="text-align:center;color:red;"><b>Sorry {{request.user}} !</b></h1>
+    <h1 style="text-align:center;color:red;"><b>Sorry {{request.user|capfirst}} !</b></h1>
     <h3 style="text-align:center;color:darkorange; margin-top:30px">I think!</h3>
     <img src="/media/app/images/cartemoji.png" width="250px" height="250px" style="margin-left:40%;">
     <h3 style="text-align:center;color:darkorange">Your cart is empty.<br>You haven't added items to your cart yet.<br>Please add items to your cart first.</h3>
+    <div class="d-flex justify-content-center"><a class="btn btn-warning "  href="/">Go to shopping</a></div>
 </div>
 {% endif %}
 {% endblock %}

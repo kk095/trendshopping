@@ -1,53 +1,15 @@
 {% extends 'basic.html' %}
-{% block title %} home page {% endblock %}
 {% block css %}
-          .col-md-3
-          {
-          display: inline-block;
-          margin-left:-4px;
-          }
-
-          .carousel-indicators .active {
-          background-color: blue;
-            }
-
-          .col-md-3 img{
-
-          width: 270px;
-          height: 200px;
-          }
-
-          body .carousel-indicator li{
-          background-color: blue;
-          }
-
-          body .carousel-indicators{
-          bottom: 0;
-          }
-
-          body .carousel-control-prev-icon,
-          body .carousel-control-next-icon{
-          background-color: blue;
-          }
-          body .carousel-control-next{
-           width:2%;
-           margin-right:30px;}
-          body .carousel-control-prev{
-          width:2%;
-           margin-left:58px;}
-
-
-           body .no-padding{
-           padding-left: 0,
-           padding-right: 0;
-           }
+.carousel-control-prev-icon,
+.carousel-control-next-icon{background-color:blue;}
+.carousel-control-prev,
+.carousel-control-next{width:2%;}
+.carousel-indicators.active{color:blue;}
 
 
 
-
-
- {% endblock %}
-
+#home{color:black;}
+{% endblock %}
 {% block body %}
 {% if user.is_authenticated %}
 {% else %}
@@ -63,72 +25,73 @@
     {% for message in messages %}
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         <strong> {{ message }}</strong>
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
     {% endfor %}
 </div>
 {% endif %}
-{% load static %}
 <br>
 {% for products,range,nslides in allprod %}
-
 <div class="container">
-    <h4 style="color:darkgrey;text-align:center;border:1px solid grey;margin-left:35%;margin-right:35%;background-color:powderblue" >Flash sale on : <span style="color:black">{{products.0.category}}</span></h4>
-<div id="demo{{forloop.counter}}" class="carousel slide my-3" data-ride="carousel">
-    <ul class="carousel-indicators">
-      <li data-target="#demo{{forloop.counter}}" data-slide-to="0" class="active"></li>
+    <h4 style="color:darkgrey;text-align:center;border:1px solid grey;margin-left:35%;margin-right:35%;background-color:lightblue" >Flash sale on : <span style="color:black">{{products.0.category}}</span></h4>
 
-       {% for i in range %}
-      <li data-target="#demo{{forloop.parentloop.counter}}" data-slide-to="{{i}}" ></li>
-      {% endfor %}
-    </ul>
+    <!--Carousel Wrapper-->
+<div id="demo{{forloop.counter}}" class="carousel slide carousel-multi-item" data-ride="carousel">
 
-    <!--Slideshow starts here -->
-    <div class="container carousel-inner no-padding">
-
-      <div class="carousel-item active">
-           {% for i in products|dictsort:"product_name" %}
-
-        <div class="col-xs-3 col-sm-3 col-md-3">
-          <div class="card" style="width: 18rem;">
-            <img src='/media/{{i.image}}' class="card-img-top " style="">
-            <div class="card-body" style="background-color:lightcyan; display:block; overflow: hidden;">
-                <p class="card-title"><b> {{i.product_name}}</b>
-                    {% if i.new %}
-                    <b><span class="badge badge-pill badge-primary">new</span></b>
-                    {% endif %}</p>
-                <p class="card-text">{{i.desc|slice:"0:25"}}....</p>
-                <a href="/add-to-cart/{{i.slug}}" class="btn btn-primary">Add to Cart</a>
-                <a href="/checkout/{{i.slug}}" id="pv{{i.id}}" class="btn btn-primary mx-4">View</a>
-
-            </div>
-          </div>
-       </div>
-
-
-               {% if forloop.counter|divisibleby:4 and forloop.counter > 0 and not forloop.last %}
-               </div><div class="carousel-item">
-                  {% endif %}
-
-
-        {% endfor %}
-    </div>
-  </div>
-
-
-
-    <!-- left and right controls for the slide -->
+    <!--Controls-->
     <a class="carousel-control-prev" href="#demo{{forloop.counter}}" data-slide="prev">
         <span class="carousel-control-prev-icon"></span>
     </a>
-   <a class="carousel-control-next" href="#demo{{forloop.counter}}" data-slide="next">
+    <a class="carousel-control-next" href="#demo{{forloop.counter}}" data-slide="next">
         <span class="carousel-control-next-icon"></span>
-   </a>
-</div>
-    </div>
+    </a>
+    <!--/.Controls-->
 
+    <!--Indicators-->
+    <ol class="carousel-indicators">
+        <li data-target="#demo{{forloop.counter}}"  data-slide-to="0" class="active"></li>
+        {% for i in  range %}
+        <li data-target="#demo{{forloop.counter}}"  data-slide-to="{{i}}"></li>
+         {% endfor %}
+    </ol>
+    <!--/.Indicators-->
+
+    <!--Slides-->
+    <div class="carousel-inner" role="listbox">
+
+        <!--First slide-->
+        <div class="carousel-item active">
+            {% for i in products|dictsort:"product_name" %}
+            <div class="col-md-3" style="float:left">
+                <div class="card mb-2">
+                    <img class="card-img-top"
+                         src='/media/{{i.image}}' alt="Card image cap" height="200px">
+                    <div class="card-body">
+                        <h4 class="card-title">{{i.product_name|truncatechars:25}}</h4>
+                        <p class="card-text">{{i.desc|truncatechars:30}}
+                            {% if i.new == True %}
+                            <span class="badge badge-pill badge-primary">new</span>
+                            {% endif %}
+                        </p>
+                            <div class="row">
+                                <a href="/add-to-cart/{{i.slug}}" class="btn btn-primary btn-small" style="height:40px">Add to Cart</a>
+                                <a href="/checkout/{{i.slug}}" id="pv{{i.id}}" class="btn btn-primary mt-2 ml-5">View</a>
+                            </div>
+
+
+                    </div>
+                </div>
+            </div>
+            {% if forloop.counter|divisibleby:4 and forloop.counter > 0 and not forloop.last %}
+        </div><div class="carousel-item">
+        {% endif %}
+        {% endfor %}
+
+</div>
+<!--/.Carousel Wrapper-->
+    </div></div></div>
 {% endfor %}
 
- {% endblock %}
+{% endblock %}
