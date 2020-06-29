@@ -28,7 +28,7 @@
     <div class="row" style="margin-left:0px;margin-right:0px">
         <div class="col-md-4">
             <div class="row">
-                <img  src="{{prod.image.url}}" id='checkoutimage' width=100% height=100%><br>
+                <img  src="/static/{{prod.image}}" id='checkoutimage' width=100% height=100%><br>
                 <div style="margin-left:100px">
          <a href="/add-to-cart/{{prod.slug}}" class="btn btn-primary my-5">Add to Cart</a>
                      <a href="/remove-from-cart/{{prod.slug}}" class="btn btn-primary mx-3">remove from cart</a>
@@ -53,16 +53,16 @@
 <div id="carouselExampleControls" class="carousel carousel-fade"  data-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img src="{{prod.image1.url}}" class="d-block w-100px" width=100% alt="no more photos" style="height:500px;width=500px">
+      <img src="/static/{{prod.image1}}" class="d-block w-100px" width=100% alt="no more photos" style="height:500px;width=500px">
     </div>
     <div class="carousel-item">
-      <img src="{{prod.image2.url}}" class="d-block w-50" width=100% alt="no more photos" style="height:500px;width=500px">
+      <img src="/static/{{prod.image2}}" class="d-block w-50" width=100% alt="no more photos" style="height:500px;width=500px">
     </div>
     <div class="carousel-item">
-      <img src="{{prod.image3.url}}" class="d-block w-50 h" width=100% alt="no more photos" style="height:500px;width=500px">
+      <img src="/static/{{prod.image3}}" class="d-block w-50 h" width=100% alt="no more photos" style="height:500px;width=500px">
     </div>
        <div class="carousel-item">
-      <img src="{{prod.image4.url}}" class="d-block w-50 h" width=100% alt="no more photos" style="height:500px;width=500px">
+      <img src="/static/{{prod.image4}}" class="d-block w-50 h" width=100% alt="no more photos" style="height:500px;width=500px">
     </div>
   </div>
 
@@ -108,7 +108,7 @@
                 <div class="col-md-3" style="float:left">
                     <div class="card mb-2">
                         <img class="card-img-top"
-                             src='{{i.image.url}}' alt="Card image cap" height="200px">
+                             src='/static/{{i.image}}' alt="Card image cap" height="200px">
                         <div class="card-body">
                             <h4 class="card-title">{{i.product_name|truncatechars:25}}</h4>
                             <p class="card-text">{{i.desc|truncatechars:30}}</p>
