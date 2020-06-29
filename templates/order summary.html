@@ -38,13 +38,13 @@
         <td>{{i.item.discount_price}}
             <span class="badge badge-pill badge-primary">Discount</span></td>
         {% endif %}
-        <td><a href="/plus/{{i.item.slug}}"><img src="/media/app/images/plus.png" height="12px" width="12px"></a><span class="mx-2"> {{i.quantity}}</span> <a href="/minus/{{i.item.slug}}"><img src="/media/app/images/minus.png" width="12px"></a></td>
+        <td><a href="/plus/{{i.item.slug}}"><img src="/static/app/images/plus.png" height="12px" width="12px"></a><span class="mx-2"> {{i.quantity}}</span> <a href="/minus/{{i.item.slug}}"><img src="/static/app/images/minus.png" width="12px"></a></td>
         {% if i.item.discount_price == 0 %}
         <td>{{i.total_price}}</td>
         {% else %}
         <td>{{i.total_discountprice}}</td>
         {% endif %}
-        <td> <a href="/remove-from-cart/{{i.item.slug}}" class=" mx-3"><img src="/media/app/images/del.jpg" width="20px" height="20px"> </a> </td>
+        <td> <a href="/remove-from-cart/{{i.item.slug}}" class=" mx-3"><img src="/static/app/images/del.jpg" width="20px" height="20px"> </a> </td>
 
     </tr>
 {% endfor %}
@@ -69,7 +69,7 @@
 <div class="container">
     <h1 style="text-align:center;color:red;"><b>Sorry {{request.user|capfirst}} !</b></h1>
     <h3 style="text-align:center;color:darkorange; margin-top:30px">I think!</h3>
-    <img src="/media/app/images/cartemoji.png" width="250px" height="250px" style="margin-left:40%;">
+    <img src="/static/app/images/cartemoji.png" width="250px" height="250px" style="margin-left:40%;">
     <h3 style="text-align:center;color:darkorange">Your cart is empty.<br>You haven't added items to your cart yet.<br>Please add items to your cart first.</h3>
     <div class="d-flex justify-content-center"><a class="btn btn-warning "  href="/">Go to shopping</a></div>
 </div>

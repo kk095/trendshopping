@@ -62,7 +62,7 @@
                 <div class="col-md-3" style="float:left">
                     <div class="card mb-2">
                         <img class="card-img-top"
-                             src='/media/{{i.image}}' alt="Card image cap" height="200px">
+                             src='{{i.image.url}}' alt="Card image cap" height="200px">
                         <div class="card-body">
                             <h4 class="card-title">{{i.product_name|truncatechars:25}}</h4>
                             <p class="card-text">{{i.desc|truncatechars:30}}
@@ -89,9 +89,8 @@
         </div></div></div>
 {% endfor %}
 {% else %}
-<h3 style="color:red; margin-left:40%;font-size:50px"><b>Oops!</b></h3>
 <div class="d-flex justify-content-center">
-    <img src="/media/app/images/oops.jpg" width="35%" height="35%">
+    <img src="/static/app/images/oops.jpg" width="35%" height="35%">
 </div>
 <h3 style="color:red; margin-left:27%;font-size:40px">Such result not found. Try again!</h3>
 {% endif %}
