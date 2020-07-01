@@ -90,7 +90,7 @@ def handlesign(request):
             myuser.first_name = fname
             myuser.last_name = lname
             myuser.save()
-            login(request,user)
+            login(request,myuser)
             subject = f"Thank you {username} for registering to Trend Shopping"
             message = f"HI! {fname} {lname}\n We are all really excited to welcome you to our team. At Trend Shopping, we care about giving our user everything they need to perform their best.Our team will help you setup your details and online accounts on your request.You can contact us any time whenever you need of us just click on the 'contact us' link and share your problems with us. Thanking You!"
             email_from = settings.EMAIL_HOST_USER
@@ -324,14 +324,32 @@ def minus(request,slug):
 def order_place(request):
     user_items = OrderItem.objects.filter(user=request.user,ordered=False)
     user_order = Order.objects.filter(user=request.user,ordered=False)
+    order = Order.objects.filter(user=request.user)
     item_length = user_order.values('items')
     items = user_items.values('quantity')
     count = 0
     for x in items:
         count += x['quantity']
-    promo=Promocode.objects.all()
-    random_promo=random.choice(promo)
-    promo_discount= -random_promo.code
+    random_promo = 'null'
+    promo_discount = 0
+    if len(order) == 1:
+        promo=Promocode.objects.filter(code=500)
+        random_promo = promo[0]
+        promo_discount +=  -promo[0].code
+    elif len(order) != 1 and 15000 <= user_order[0].amount:
+        promo = Promocode.objects.filter(code=250)
+        random_promo=promo[0]
+        promo_discount= -promo[0].code
+    elif len(order) != 1 and 30000 <= user_order[0].amount:
+        promo = Promocode.objects.filter(code=200)
+        random_promo=promo[0]
+        promo_discount= -promo[0].code
+    elif len(order) != 1 and user_order[0].amount >= 50000:
+        promo = Promocode.objects.filter(code=900)
+        random_promo=promo[0]
+        promo_discount= -promo[0].code
+
+
     context={
         'count':count,
         'item':user_items,

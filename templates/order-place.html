@@ -158,9 +158,13 @@ checkout
                 {% for i in order %}
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">Total Items <span style="margin-left:22%">{{length|length}}</span></li>
-                <li class="list-group-item">Total Amount <span style="margin-left:15%">{{i.final}}</span></li>
+                <li class="list-group-item">Total Amount <span style="margin-left:15%">{{i.amount}}</span></li>
+                {% if promo != 'null' %}
                 <li class="list-group-item" style="color:darkviolet"><b>Promo Code:</b> <span style="margin-left:17%"><b>{{promo.code}}</b></span><br><b>{{promo}}</b></li>
-                <li class="list-group-item"><b>Final Amount</b> <span style="margin-left:15%"><b>{{i.final|add:discount}}</b></span></li>
+                {% else %}
+                <li class="list-group-item" style="color:darkviolet"><b>Promo Code:</b> <span style="margin-left:17%"><b>{{promo.code}}</b></span><br><span style="color:red"><b>NO PROMO CODE</b></span></li>
+                {% endif %}
+                <li class="list-group-item"><b>Final Amount</b> <span style="margin-left:15%"><b>{{i.amount|add:discount}}</b></span></li>
 
             </ul>
                 {% endfor %}
