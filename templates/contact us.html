@@ -5,15 +5,22 @@ height:50px;
 width:50px;}
 #contact{color:black;
           }
+
+@media screen and (max-width:415px){
+#contact_heading{text-align:center;
+justify-content:center;}
+#contact_emoji{
+padding:5%;}
+}
 {% endblock %}
 {% block body %}
 <br>
 
 <div class="container" id="email">
-    <div class="row">
+    <div class="row" id="contact_heading">
     <h1>Contact Us</h1>
-        <img src="/static/app/images/email.jpg" id="image"></div>
-        
+        <img src="/static/app/images/email.jpg" id="image">
+    </div>
     <div class="row">
     <div class="col-md-6">
 
@@ -39,7 +46,7 @@ width:50px;}
 </form>
     </div>
     <div class="col-md-6">
-        <img src="/static/app/images/contact.jpg" height="400px" width="400px">
+        <img src="/static/app/images/contact.jpg" id="contact_emoji" height="400px" width="400px">
     </div>
     </div></div>
 </div>

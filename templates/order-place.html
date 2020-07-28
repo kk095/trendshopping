@@ -1,4 +1,24 @@
 {% extends 'basic.html' %}
+{% block css %}
+.summary{width: 18rem;
+margin-top:30%;
+margin-left:20%;
+}
+@media screen and (max-width:415px){
+.info{
+font-size:25px;}
+.yourcart{
+font-size:25px;}
+#yourcart{font-size:25px;
+float:right;}
+.promo{
+text-align:center;}
+#promo{
+margin-left:25%;}
+.summary{margin:0%;
+justify-content:center;}
+}
+{% endblock %}
 {% block title %}
 checkout
 {% endblock %}
@@ -6,7 +26,7 @@ checkout
 
 <div class="container row d-flex justify-content-center">
 <div class="col-md-8 ">
-<h3 class="mt-5">Enter a delivery information</h3>
+<h3 class="mt-5 info">Enter a delivery information</h3>
 <hr style="margin-right:45%">
 <div class="container my-5" >
 <form class="needs-validation" novalidate action="/order-place/" method="post">{% csrf_token %}
@@ -145,15 +165,15 @@ checkout
 </div>
 </div>
     <div class="col-md-4">
-        <div class="card" style="width: 18rem; margin-top:30%;margin-left:20%">
+        <div class="card summary">
             <img class="card-img-top" src="/static/app/images/cart image.png" alt="Card image cap">
             <div class="card-body">
-                <div class="row">
+                <div class="row" id="cartdiv">
                 <div class="col-md-9">
-                    <h3 class="card-title" style="color:darkcyan">Your cart</h3>
+                    <h3 class="card-title yourcart" style="color:darkcyan">Your cart</h3>
                 </div>
                     <div class="col-md-3">
-                        <h3><span class="badge badge-pill badge-info">{{count}}</span></h3>
+                        <h3><span class="badge badge-pill badge-info" id="yourcart">{{count}}</span></h3>
                     </div></div>
                 {% for i in order %}
             <ul class="list-group list-group-flush">
@@ -171,10 +191,10 @@ checkout
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-8">
-                        <h5 style="color:darkviolet">Promo code</h5>
+                        <h5  class="promo" style="color:darkviolet">Promo code</h5>
                     </div>
                     <div class="col-md-4">
-                <a class="btn " href="#" style="background-color:violet">Redeem</a>
+                <a class="btn  promo " id="promo" href="#" style="background-color:violet">Redeem</a>
                     </div></div></div>
                 <hr>
                 <div class="card-body">

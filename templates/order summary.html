@@ -1,4 +1,17 @@
 {% extends 'basic.html' %}
+{% block css %}
+#emptycart_emoji{
+margin-left:40%}
+@media screen and (max-width:415px){
+#table{
+font-size:12px;}
+#plus,#minus{
+width:9px;}
+#emptycart_emoji{
+margin:0%;
+text-align:center;}
+}
+{%  endblock %}
 {% block body%}
 {% if messages %}
 <div class="messages">
@@ -15,7 +28,7 @@
 <br><br>
 {% if count != 0 %}
 <div class="container">
-<table class="table table-striped">
+<table class="table table-striped" id="table">
     <h3>Order Summary</h3>
   <thead>
     <tr>
@@ -38,7 +51,7 @@
         <td>{{i.item.discount_price}}
             <span class="badge badge-pill badge-primary">Discount</span></td>
         {% endif %}
-        <td><a href="/plus/{{i.item.slug}}"><img src="/static/app/images/plus.png" height="12px" width="12px"></a><span class="mx-2"> {{i.quantity}}</span> <a href="/minus/{{i.item.slug}}"><img src="/static/app/images/minus.png" width="12px"></a></td>
+        <td><a href="/plus/{{i.item.slug}}"><img src="/static/app/images/plus.png" id="plus" height="12px" width="12px"></a><span class="mx-2"> {{i.quantity}}</span> <a href="/minus/{{i.item.slug}}"><img src="/static/app/images/minus.png" id="minus" width="12px"></a></td>
         {% if i.item.discount_price == 0 %}
         <td>{{i.total_price}}</td>
         {% else %}
@@ -56,10 +69,10 @@
 </tr>
    <tr>
      <td colspan="6">
-
-       <a class="btn btn-warning float-right" href="/order-place/">Proceed to checkout</a>
+      <div class="row">
        <a class="btn btn-primary float-right mx-2" href="/">Continue shopping</a>
-     </td>
+          <a class="btn btn-warning float-right" href="/order-place/">Proceed to checkout</a>
+      </div></td>
    </tr>
    {% endfor %}
   </tbody>
@@ -69,7 +82,7 @@
 <div class="container">
     <h1 style="text-align:center;color:red;"><b>Sorry {{request.user|capfirst}} !</b></h1>
     <h3 style="text-align:center;color:darkorange; margin-top:30px">I think!</h3>
-    <img src="/static/app/images/cartemoji.png" width="250px" height="250px" style="margin-left:40%;">
+    <img src="/static/app/images/cartemoji.png" width="250px" height="250px" id="emptycart_emoji">
     <h3 style="text-align:center;color:darkorange">Your cart is empty.<br>You haven't added items to your cart yet.<br>Please add items to your cart first.</h3>
     <div class="d-flex justify-content-center"><a class="btn btn-warning "  href="/">Go to shopping</a></div>
 </div>

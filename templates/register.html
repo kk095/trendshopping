@@ -29,11 +29,22 @@
         -ms-user-select: none;
         user-select: none;
       }
+      #pass-label{
+      margin-left:150px;}
 
       @media (min-width: 768px) {
         .bd-placeholder-img-lg {
           font-size: 3.5rem;
         }
+      }
+      @media screen and (max-width:415px){
+      #register-heading{
+      font-size:20px;}
+      #sign-in-heading{
+      font-size:13px;}
+      #pass-label{
+      margin:0%;
+      font-size:10px;}
       }
     </style>
     <!-- Custom styles for this template -->
@@ -111,12 +122,12 @@
     {% endfor %}
 </div>
 {% endif %}
-<h3 style="color:red">Register yourself before go ahead!</h3>
+<h3 id="register-heading" style="color:red">Register yourself before go ahead!</h3>
 
 <div style="margin-left:40%;margin-right:40%;margin-top:7%">
     <form action="/login" method="post">
         {% csrf_token %}
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+        <h1 class="h3 mb-3 font-weight-normal" id="sign-in-heading">Please sign in</h1>
 
         <div class="form-group">
             <label for="user" ><b>Username</b></label>
@@ -124,7 +135,7 @@
         </div>
 
         <div class="form-group">
-            <label for="pass"><b>Password</b></label><br><a href="/password-reset/" style="margin-left:150px">Forget password</a>
+            <label for="pass"><b>Password</b></label><br><a href="/password-reset/"  id="pass-label" >Forget password</a>
             <input type="password" class="form-control col-md-12" id="pass-cart" name="loginpassword" placeholder="enter your password">
 
         </div><br>

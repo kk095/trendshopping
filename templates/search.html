@@ -5,8 +5,30 @@
 .carousel-control-next-icon{background-color:blue;}
 .carousel-control-prev,
 .carousel-control-next{width:2%;}
-
-
+#search-res{color:darkgrey;
+text-align:center;
+border:1px solid grey;
+margin-left:35%;
+margin-right:35%;
+background-color:powderblue;}
+#noresult{
+color:red;
+margin-left:27%;
+font-size:40px;}
+@media screen and (max-width:415px){
+#noresult{
+margin:0%;
+text-align:center;}
+@media screen and (max-width:415px){
+#search-res{
+color:grey;
+text-align:center;
+font-size:15px;
+margin-top:5px;
+border:1px solid grey;
+background-color:lightblue;
+}
+}
 
 {% endblock %}
 
@@ -25,12 +47,12 @@
 {% endif %}
 {% load static %}
 <br>
-<h5 style="color:blue;"><b>{{l}}-</b><i>result{{l|pluralize}} found for</i>"<span style="color:red">{{query}}</span>"</h5>
+<h5  style="color:blue;"><b>{{l}}-</b><i>result{{l|pluralize}} found for</i>"<span style="color:red">{{query}}</span>"</h5>
 <hr>
 {% if l != 0 %}
 {% for products,range,nslides in allprod %}
 <div class="container">
-    <h4 style="color:darkgrey;text-align:center;border:1px solid grey;margin-left:35%;margin-right:35%;background-color:powderblue" >Flash sale on : <span style="color:black">{{products.0.category}}</span></h4>
+    <h4  id="search-res"  >Flash sale on : <span style="color:black">{{products.0.category}}</span></h4>
 
     <!--Carousel Wrapper-->
     <div id="demo{{forloop.counter}}" class="carousel slide carousel-multi-item" data-ride="carousel">
@@ -92,6 +114,6 @@
 <div class="d-flex justify-content-center">
     <img src="/static/app/images/oops.jpg" width="35%" height="35%">
 </div>
-<h3 style="color:red; margin-left:27%;font-size:40px">Such result not found. Try again!</h3>
+<h3  id="noresult">Such result not found. Try again!</h3>
 {% endif %}
  {% endblock %}

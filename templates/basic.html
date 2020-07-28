@@ -9,6 +9,12 @@
   <style>
        #foot{
        background-color:grey;}
+       #pass_forget{
+       float:right;}
+       @media screen and (max-width:415px){
+       #pass_forget{margin:0%;
+       float:right;}
+       }
       {% block css %}
       {% endblock %}
   </style>
@@ -101,7 +107,7 @@
   </div><br>
 
     <div class="form-group">
-    <label for="pass">Password</label><a href="/password-reset/" style="margin-left:270px">Forget password</a>
+    <label for="pass">Password</label><a href="/password-reset/" id="pass_forget">Forget password</a>
     <input type="password" class="form-control col-md-12" id="pass" name="loginpassword" placeholder="enter your password" required>
   </div><br>
 <button type="submit" class="btn btn-primary">Log in</button>

@@ -5,8 +5,23 @@
 .carousel-control-prev,
 .carousel-control-next{width:2%;}
 .carousel-indicators.active{color:blue;}
-
-
+#title{
+color:grey;
+text-align:center;
+border:1px solid grey;
+background-color:lightblue;
+margin-left:35%;margin-right:35%
+}
+@media screen and (max-width:415px){
+#title{
+color:grey;
+text-align:center;
+font-size:15px;
+margin-top:5px;
+border:1px solid grey;
+background-color:lightblue;
+}
+#message{font-size:15px}}
 {% load static %}
 #home{color:black;}
 {% endblock %}
@@ -24,7 +39,7 @@
 <div class="messages">
     {% for message in messages %}
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong> {{ message }}</strong>
+        <strong id="message"> {{ message }}</strong>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -36,7 +51,8 @@
 
 {% for products,range,nslides in allprod %}
 <div class="container">
-    <h4 style="color:darkgrey;text-align:center;border:1px solid grey;margin-left:35%;margin-right:35%;background-color:lightblue" >Flash sale on : <span style="color:black">{{products.0.category}}</span></h4>
+    <h4  id="title" >
+        Flash sale on : <span style="color:black">{{products.0.category}}</span></h4>
 
     <!--Carousel Wrapper-->
 <div id="demo{{forloop.counter}}" class="carousel slide carousel-multi-item" data-ride="carousel">

@@ -9,7 +9,6 @@ from django.core.mail import send_mail
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.utils import timezone
-import random
 from django.conf  import settings
 from django.views.generic import View
 from datetime import datetime
